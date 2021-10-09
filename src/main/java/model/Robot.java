@@ -20,28 +20,41 @@ public class Robot implements Player {
 
     public int pickSomeMatches(MatchBox matchBox) {
 
-        int maxPick = matchBox.getAllowedPicks().get(matchBox.getAllowedPicks().size()-1);
+        int maxPick = matchBox.getAllowedPicks().get(matchBox.getAllowedPicks().size() - 1);
         int current = matchBox.getCurrentNumOfMatches();
         switch (strategy) {
             case RANDOM -> {
-                int top = Math.min(matchBox.getCurrentNumOfMatches(),maxPick);
-                return  (int)(Math.random() * (top-1+1)) + 1;
+                int top = Math.min(matchBox.getCurrentNumOfMatches(), maxPick);
+                return (int) (Math.random() * (top - 1 + 1)) + 1;
             }
             case ONE_BY_ONE -> {
                 return 1;
             }
             case MATH -> {
-                if(current>maxPick){
+                /*if(current>maxPick){
                     if((current%(maxPick+1)==1) || (current%(maxPick+1)==2)){ return 1;}
                     if(current%(maxPick+1)==3){return 2;}
                     if(current%(maxPick+1)==0){return 3;}
+
                 }
                 else {
                     if (current == 3){return 2;}
                     if (current == 2){return 1;}
                 }
+        return 0;
+        */
 
+                int magicNumber = maxPick + 1;
+                int modulo = current % (magicNumber);
+                if (modulo == 0) {
+                    return magicNumber - 1;
+                }
+                if (modulo == 1) {
+                    return 1;
+                }
+                return modulo - 1;
             }
+
         }
         return 0;
     }
